@@ -11,6 +11,49 @@ construction projects and contractor bids.
 
 ---
 
+## 📖 About this project (in plain language)
+
+**The real-world problem.** State transportation departments (DOTs) build
+and repair thousands of miles of highways. For every project, multiple
+construction companies (contractors) compete by submitting a **bid** — a
+price they'll charge to do the work — and the DOT usually awards the job
+to the **lowest qualified bidder**. Keeping track of all those projects,
+bids, budgets, and materials is a huge data job. The software that does
+this in real life is called **AASHTOWare Project**, and it's used by
+nearly every state DOT in the U.S., including the **Kansas DOT (KDOT)**.
+
+**What KanBuild does.** KanBuild is a tiny, easy-to-understand version of
+that same idea. It stores a handful of **projects** (like "I-70
+Resurfacing"), the **contractors** who bid on them, the **bids**
+themselves, and the **materials** (asphalt, concrete, etc.) each project
+uses. Then it answers the questions a DOT manager actually asks:
+
+- Who submitted the **lowest bid** on each project?
+- Did the winning bid come in **under or over budget**?
+- How many projects are **open for bidding** right now?
+- Which county has the **most road work** by dollars?
+- Is any of our **data missing or wrong** (a quality check)?
+
+**How it works, step by step.**
+1. A **database** (SQLite) stores all the projects, contractors, bids, and materials in related tables.
+2. A set of **SQL reports** pulls and analyzes that data to answer the questions above.
+3. A **Python script** double-checks the data and exports a clean file (CSV) that can feed a dashboard.
+4. A simple **web page** shows the project list and lets you submit a new bid.
+5. **Documentation** (requirements, test cases, a user guide) wraps it all up like a real software project.
+
+**Why it's built this way.** This mirrors the actual KDOT job — the role
+is the technical person who keeps this kind of system running, writes the
+reports, validates the data, and trains others to use it. So every part
+of KanBuild maps to a real duty from the job description (see the table
+below). And it's **100% free**: no paid software, no cloud accounts, no
+credit card — everything runs right on your own computer.
+
+> **Note:** All the data here is **made up** for learning. KanBuild is not
+> affiliated with AASHTO, AASHTOWare, or KDOT — it's a personal practice
+> project inspired by how their software works.
+
+---
+
 ## 🎯 Why this project?
 The real job is the technical lead for KDOT's project/bidding software.
 This repo is a miniature version of that exact system — so it maps
