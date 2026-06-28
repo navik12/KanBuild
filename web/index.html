@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+============================================================
+KanBuild — web/index.html
+PURPOSE: A simple web page showing projects + a bid form.
+SKILL DEMONSTRATED: HTML / front-end + "website file updates"
+                    (a desired skill in the JD).
+HOW TO VIEW: just double-click this file, or run:
+             python3 -m http.server 8000   (then open localhost:8000/web/)
+============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KanBuild — KDOT Project & Bidding Portal</title>
+  <style>
+    /* --- basic styling (CSS) --- */
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, Arial, sans-serif;
+      margin: 0; background: #f4f6f8; color: #1d2b3a;
+    }
+    header {
+      background: #00558c; color: #fff; padding: 20px 32px;
+    }
+    header h1 { margin: 0; font-size: 22px; }
+    header p  { margin: 4px 0 0; opacity: .85; font-size: 14px; }
+    main { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+    h2 { border-bottom: 2px solid #00558c; padding-bottom: 6px; }
+    table {
+      width: 100%; border-collapse: collapse; background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e3e8ee; }
+    th { background: #eaf2f8; font-size: 13px; text-transform: uppercase; letter-spacing: .03em; }
+    tr:hover td { background: #f9fbfd; }
+    .badge {
+      padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;
+    }
+    .Bidding     { background: #fff3cd; color: #7a5c00; }
+    .Awarded     { background: #d1e7dd; color: #0f5132; }
+    .Complete    { background: #cfe2ff; color: #084298; }
+    .Planned     { background: #e2e3e5; color: #41464b; }
+    .InProgress  { background: #f8d7da; color: #842029; }
+    form {
+      background: #fff; padding: 20px; margin-top: 16px; border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+    label { display: block; margin: 10px 0 4px; font-weight: 600; font-size: 14px; }
+    input, select {
+      width: 100%; padding: 8px; border: 1px solid #c5ced8; border-radius: 4px;
+    }
+    button {
+      margin-top: 16px; background: #00558c; color: #fff; border: none;
+      padding: 10px 20px; border-radius: 4px; font-size: 15px; cursor: pointer;
+    }
+    button:hover { background: #003f6b; }
+    #msg { margin-top: 12px; font-weight: 600; color: #0f5132; }
+    footer { text-align: center; color: #6b7785; font-size: 12px; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KanBuild — Highway Project &amp; Bidding Portal</h1>
+    <p>A mini-clone of AASHTOWare Project &middot; Kansas DOT demo</p>
+  </header>
+
+  <main>
+    <h2>Active Projects</h2>
+    <table id="projectTable">
+      <thead>
+        <tr><th>Project</th><th>County</th><th>Budget</th><th>Status</th></tr>
+      </thead>
+      <tbody><!-- rows injected by app.js --></tbody>
+    </table>
+
+    <h2>Submit a Bid</h2>
+    <form id="bidForm">
+      <label for="project">Project</label>
+      <select id="project" required></select>
+
+      <label for="company">Company Name</label>
+      <input id="company" type="text" placeholder="e.g. Sunflower Paving Co." required />
+
+      <label for="amount">Bid Amount ($)</label>
+      <input id="amount" type="number" min="0" step="1000" placeholder="e.g. 4100000" required />
+
+      <button type="submit">Submit Bid</button>
+      <div id="msg"></div>
+    </form>
+  </main>
+
+  <footer>KanBuild demo project &middot; built to practice the KDOT Management Analyst II skills</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

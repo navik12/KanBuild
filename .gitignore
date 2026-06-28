@@ -1,0 +1,18 @@
+# Generated database (rebuild it with: bash database/build.sh)
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated analysis output (rebuild it with: python3 analysis/analyze.py)
+analysis/project_report.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor noise
+.DS_Store
+.vscode/
+.idea/
