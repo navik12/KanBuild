@@ -83,6 +83,12 @@ HOW TO VIEW: just double-click this file, or run:
     /* --- Submitted bids result badges --- */
     .under { color: #0f5132; font-weight: 600; font-size: 13px; }
     .over  { color: #842029; font-weight: 600; font-size: 13px; }
+
+    /* --- Mode banner (database vs demo) --- */
+    #mode { padding: 10px 14px; border-radius: 6px; font-size: 14px; margin-bottom: 16px; }
+    #mode code { background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 3px; }
+    .mode-db   { background: #d1e7dd; color: #0f5132; }
+    .mode-demo { background: #fff3cd; color: #664d03; }
   </style>
 </head>
 <body>
@@ -92,6 +98,7 @@ HOW TO VIEW: just double-click this file, or run:
   </header>
 
   <main>
+    <div id="mode"><!-- mode banner set by app.js --></div>
     <h2>Active Projects</h2>
     <p class="hint">💡 Hover over the <strong>Bids</strong> column to see which companies bid and how much.</p>
     <table id="projectTable">

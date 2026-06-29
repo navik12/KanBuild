@@ -31,11 +31,23 @@ python3 analysis/analyze.py
 This prints a summary and writes `analysis/project_report.csv`.
 
 ### Step 3 — Open the web page
-Double-click `web/index.html`, or run a local server:
+
+**Option A — Save bids permanently (database mode):**
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000/web/ in your browser
+python3 web/server.py
+# then open http://localhost:8000 in your browser
 ```
+This runs a small Python backend that saves any project, company, or bid
+you add straight into `database/kanbuild.db`, so it lasts after you close
+the page. The page shows a green "Database mode" banner when it's working.
+
+**Option B — Just look at it (demo mode):**
+Double-click `web/index.html`. It works with the built-in sample data, but
+anything you add resets when you refresh (a yellow "Demo mode" banner shows).
+
+> After adding bids in database mode, you can re-run the SQL reports
+> (`bash database/build.sh` shows them) or the Python analysis
+> (`python3 analysis/analyze.py`) and they'll include your new bids.
 
 ## Exploring the data yourself
 ```bash

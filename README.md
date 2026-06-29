@@ -72,7 +72,11 @@ Then it answers the kinds of questions a manager would ask:
 - Hover the **Bids** column to see every company that bid on a project, with the lowest one marked as the likely winner.
 - See all bids together in the **Submitted Bids** table.
 
-> Note: the web page keeps what you add in the browser only (it resets on refresh). Saving it permanently would need a backend — a possible next step.
+**Saving permanently.** I also wrote a small Python backend (`web/server.py`,
+using only the standard library). Run it with `python3 web/server.py` and the
+page saves every project, company, and bid straight into the SQLite database,
+so they last after you close the browser. If you skip the server and just open
+the file, it still works in a "demo mode" that resets on refresh.
 
 > All the data here is made up for learning. KanBuild isn't affiliated
 > with AASHTO, AASHTOWare, or the Kansas DOT — it's a personal practice
@@ -90,6 +94,7 @@ Then it answers the kinds of questions a manager would ask:
 | Data analysis | `analysis/analyze.py` — Python and pandas |
 | Reporting / BI | `analysis/analyze.py` → CSV → Looker Studio dashboard |
 | HTML / front-end | `web/index.html`, `web/app.js` |
+| Full-stack (backend + API) | `web/server.py` — Python server that saves to the database |
 | Documentation and testing | `docs/` — requirements, test cases, user guide |
 
 ## Tools I used (all free)
@@ -112,7 +117,10 @@ bash database/build.sh
 python3 analysis/analyze.py
 
 # 3. Open the web page
-open web/index.html        # or: python3 -m http.server 8000
+#    a) Save permanently (database mode):
+python3 web/server.py      # then open http://localhost:8000
+#    b) Or just look at it (demo mode):
+open web/index.html
 ```
 
 ## 📁 Project structure
@@ -127,8 +135,9 @@ KanBuild/
 ├── analysis/
 │   └── analyze.py             # Python + pandas analysis → CSV
 ├── web/
-│   ├── index.html             # project list + bid form
-│   └── app.js                 # front-end logic
+│   ├── index.html             # project list + add/bid forms
+│   ├── app.js                 # front-end logic
+│   └── server.py              # Python backend that saves to the database
 └── docs/
     ├── requirements.md        # what the project needs to do
     ├── test_cases.md          # tests to check it works
