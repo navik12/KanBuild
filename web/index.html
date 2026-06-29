@@ -58,6 +58,27 @@ HOW TO VIEW: just double-click this file, or run:
     button:hover { background: #003f6b; }
     #msg { margin-top: 12px; font-weight: 600; color: #0f5132; }
     footer { text-align: center; color: #6b7785; font-size: 12px; padding: 24px; }
+
+    /* --- Bids column: hover popup --- */
+    .hint { color: #6b7785; font-size: 13px; margin: 0 0 10px; }
+    .bids-cell { position: relative; }
+    .bid-count {
+      cursor: pointer; color: #00558c; font-weight: 600; font-size: 13px;
+      white-space: nowrap;
+    }
+    .no-bids { color: #9aa5b1; font-size: 13px; font-style: italic; }
+    .bid-popup {
+      display: none; position: absolute; right: 0; top: 100%; z-index: 10;
+      background: #fff; border: 1px solid #c5ced8; border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.18); padding: 6px; min-width: 260px;
+    }
+    .bids-cell:hover .bid-popup { display: block; } /* show on hover */
+    .bid-popup table { box-shadow: none; }
+    .bid-popup th, .bid-popup td {
+      padding: 6px 10px; font-size: 13px; text-transform: none; letter-spacing: 0;
+    }
+    .bid-popup th { background: #00558c; color: #fff; }
+    .bid-popup tr.winner td { background: #d1e7dd; font-weight: 700; color: #0f5132; }
   </style>
 </head>
 <body>
@@ -68,9 +89,10 @@ HOW TO VIEW: just double-click this file, or run:
 
   <main>
     <h2>Active Projects</h2>
+    <p class="hint">💡 Hover over the <strong>Bids</strong> column to see which companies bid and how much.</p>
     <table id="projectTable">
       <thead>
-        <tr><th>Project</th><th>County</th><th>Budget</th><th>Status</th></tr>
+        <tr><th>Project</th><th>County</th><th>Budget</th><th>Status</th><th>Bids</th></tr>
       </thead>
       <tbody><!-- rows injected by app.js --></tbody>
     </table>
@@ -81,7 +103,10 @@ HOW TO VIEW: just double-click this file, or run:
       <select id="project" required></select>
 
       <label for="company">Company Name</label>
-      <input id="company" type="text" placeholder="e.g. Sunflower Paving Co." required />
+      <select id="company" required>
+        <option value="" disabled selected>— Pick a company —</option>
+        <!-- options injected by app.js -->
+      </select>
 
       <label for="amount">Bid Amount ($)</label>
       <input id="amount" type="number" min="0" step="1000" placeholder="e.g. 4100000" required />
