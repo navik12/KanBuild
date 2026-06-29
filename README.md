@@ -1,9 +1,10 @@
 # 🛣️ KanBuild — Highway Construction Project & Bidding System
 
-A small, **100% free** portfolio project that recreates — on a tiny
-scale — **AASHTOWare Project**, the software state DOTs (like the
-**Kansas Department of Transportation**) use to manage road
-construction projects and contractor bids.
+This is a small project I made to learn how road construction projects
+are managed. It's a simple version of **AASHTOWare Project** — the
+software that state transportation departments, like the **Kansas DOT**,
+use to keep track of road projects and the bids that contractors send in
+to build them.
 
 > A hands-on project I built to grow my skills in **SQL, databases,
 > data analysis, reporting/BI, HTML, and the software development
