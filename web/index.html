@@ -79,6 +79,10 @@ HOW TO VIEW: just double-click this file, or run:
     }
     .bid-popup th { background: #00558c; color: #fff; }
     .bid-popup tr.winner td { background: #d1e7dd; font-weight: 700; color: #0f5132; }
+
+    /* --- Submitted bids result badges --- */
+    .under { color: #0f5132; font-weight: 600; font-size: 13px; }
+    .over  { color: #842029; font-weight: 600; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -97,6 +101,39 @@ HOW TO VIEW: just double-click this file, or run:
       <tbody><!-- rows injected by app.js --></tbody>
     </table>
 
+    <h2>Add a New Project</h2>
+    <form id="projectForm">
+      <label for="pname">Project Name</label>
+      <input id="pname" type="text" placeholder="e.g. K-7 Bridge Rehab" required />
+
+      <label for="pcounty">County</label>
+      <input id="pcounty" type="text" placeholder="e.g. Wyandotte" required />
+
+      <label for="pbudget">Budget ($)</label>
+      <input id="pbudget" type="number" min="0" step="1000" placeholder="e.g. 3000000" required />
+
+      <label for="pstatus">Status</label>
+      <select id="pstatus" required>
+        <option value="Planned">Planned</option>
+        <option value="Bidding">Bidding</option>
+        <option value="Awarded">Awarded</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Complete">Complete</option>
+      </select>
+
+      <button type="submit">Add Project</button>
+      <div id="pmsg"></div>
+    </form>
+
+    <h2>Add a New Company</h2>
+    <form id="companyForm">
+      <label for="cname">Company Name</label>
+      <input id="cname" type="text" placeholder="e.g. Tornado Alley Construction" required />
+
+      <button type="submit">Add Company</button>
+      <div id="cmsg"></div>
+    </form>
+
     <h2>Submit a Bid</h2>
     <form id="bidForm">
       <label for="project">Project</label>
@@ -113,6 +150,15 @@ HOW TO VIEW: just double-click this file, or run:
       <button type="submit">Submit Bid</button>
       <div id="msg"></div>
     </form>
+
+    <h2>Submitted Bids</h2>
+    <p class="hint">Every bid submitted, newest first. The lowest bid per project is the likely winner.</p>
+    <table id="bidsTable">
+      <thead>
+        <tr><th>Project</th><th>Company</th><th>Bid Amount</th><th>Budget</th><th>Result</th></tr>
+      </thead>
+      <tbody><!-- rows injected by app.js --></tbody>
+    </table>
   </main>
 
   <footer>KanBuild demo project &middot; built to practice the KDOT Management Analyst II skills</footer>

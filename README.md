@@ -14,7 +14,7 @@ HTML, and working through a project from start to finish.
 2. **Loaded sample data** — 8 highway projects, 10 contractors, and the bids between them.
 3. **Wrote 20 SQL reports** — using JOINs, GROUP BY, subqueries, CTEs, CASE, and a few data-quality checks.
 4. **Analyzed the data in Python** — used pandas to summarize it and export a clean CSV.
-5. **Built a web page** — an HTML/CSS/JavaScript page that lists the projects and has a bid form.
+5. **Built a web page** — an HTML/CSS/JavaScript page where you can add projects, add companies, submit bids, and see each project's bids.
 6. **Created a dashboard** — connected the data to Google Looker Studio and built scorecards and charts.
 7. **Wrote the documentation** — requirements, test cases, and a user guide, and put it all on GitHub.
 
@@ -62,8 +62,17 @@ Then it answers the kinds of questions a manager would ask:
 1. A **database** (SQLite) holds the projects, contractors, bids, and materials.
 2. A set of **SQL reports** pulls and analyzes that data to answer the questions above.
 3. A **Python script** double-checks the data and exports a CSV for the dashboard.
-4. A **web page** shows the project list and a bid form.
+4. A **web page** shows the project list and lets you add projects, add companies, and submit bids — each bid is checked against the project's budget right away.
 5. The **docs** (requirements, test cases, user guide) wrap it up like a real project.
+
+**On the web page you can:**
+- Add a new project (name, county, budget, status) — it shows up in the table.
+- Add a new company, or just type one while bidding — it's remembered for next time.
+- Submit a bid for any project; it instantly tells you if the bid is under or over budget.
+- Hover the **Bids** column to see every company that bid on a project, with the lowest one marked as the likely winner.
+- See all bids together in the **Submitted Bids** table.
+
+> Note: the web page keeps what you add in the browser only (it resets on refresh). Saving it permanently would need a backend — a possible next step.
 
 > All the data here is made up for learning. KanBuild isn't affiliated
 > with AASHTO, AASHTOWare, or the Kansas DOT — it's a personal practice

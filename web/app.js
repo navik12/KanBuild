@@ -108,21 +108,119 @@ function renderProjects() {
 
 renderProjects();
 
-// ---- Fill the Project dropdown in the form ----
+// ---- Build (or rebuild) the visible "Submitted Bids" table ----
+const bidsTbody = document.querySelector("#bidsTable tbody");
+const projectName = (id) => projects.find((p) => p.id === id).name;
+const projectBudget = (id) => projects.find((p) => p.id === id).budget;
+
+function renderBids() {
+  bidsTbody.innerHTML = "";
+  // newest first (a copy so we don't reverse the real array)
+  [...bids].reverse().forEach((b) => {
+    const budget = projectBudget(b.projectId);
+    const over = b.amount > budget;
+    const result = over
+      ? `<span class="over">⚠ Over budget</span>`
+      : `<span class="under">✓ Under budget</span>`;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${projectName(b.projectId)}</td>
+      <td>${b.company}</td>
+      <td>${money(b.amount)}</td>
+      <td>${money(budget)}</td>
+      <td>${result}</td>`;
+    bidsTbody.appendChild(tr);
+  });
+}
+
+renderBids();
+
+// ---- Fill the Project dropdown in the bid form (rebuildable) ----
 const projectSelect = document.querySelector("#project");
-projects.forEach((p) => {
-  const opt = document.createElement("option");
-  opt.value = p.id;
-  opt.textContent = p.name;
-  projectSelect.appendChild(opt);
+
+function renderProjectOptions() {
+  projectSelect.innerHTML = "";
+  projects.forEach((p) => {
+    const opt = document.createElement("option");
+    opt.value = p.id;
+    opt.textContent = p.name;
+    projectSelect.appendChild(opt);
+  });
+}
+
+renderProjectOptions();
+
+// ---- Handle "Add a New Project" ----
+const projectForm = document.querySelector("#projectForm");
+const pmsg = document.querySelector("#pmsg");
+
+projectForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.querySelector("#pname").value.trim();
+  const county = document.querySelector("#pcounty").value.trim();
+  const budget = Number(document.querySelector("#pbudget").value);
+  const status = document.querySelector("#pstatus").value;
+
+  if (!name || !county || !budget) return;
+
+  // Give the new project the next id number
+  const nextId = Math.max(...projects.map((p) => p.id)) + 1;
+  projects.push({ id: nextId, name, county, budget, status });
+
+  renderProjects();        // show the new row in the table
+  renderProjectOptions();  // make it pickable in the bid form
+
+  pmsg.style.color = "#0f5132";
+  pmsg.textContent = `✓ Added project "${name}" (${county}, ${money(budget)}, ${status}). It's now in the table and the bid form.`;
+  projectForm.reset();
 });
 
 // ---- Fill the company suggestion list (you can still type a NEW one) ----
 const companyList = document.querySelector("#companyList");
-contractors.forEach((c) => {
-  const opt = document.createElement("option");
-  opt.value = c.name;
-  companyList.appendChild(opt);
+
+function renderCompanyOptions() {
+  companyList.innerHTML = "";
+  contractors.forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = c.name;
+    companyList.appendChild(opt);
+  });
+}
+
+renderCompanyOptions();
+
+// Add a company to the list (used by the form and by new bids). Skips duplicates.
+function addCompany(name) {
+  const exists = contractors.some(
+    (c) => c.name.toLowerCase() === name.toLowerCase()
+  );
+  if (!exists) {
+    const nextId = Math.max(...contractors.map((c) => c.id)) + 1;
+    contractors.push({ id: nextId, name });
+    renderCompanyOptions();
+  }
+}
+
+// ---- Handle "Add a New Company" ----
+const companyForm = document.querySelector("#companyForm");
+const cmsg = document.querySelector("#cmsg");
+
+companyForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.querySelector("#cname").value.trim();
+  if (!name) return;
+
+  const before = contractors.length;
+  addCompany(name);
+
+  if (contractors.length > before) {
+    cmsg.style.color = "#0f5132";
+    cmsg.textContent = `✓ Added "${name}". It's now saved in the company list for bids.`;
+  } else {
+    cmsg.style.color = "#842029";
+    cmsg.textContent = `"${name}" is already in the list.`;
+  }
+  companyForm.reset();
 });
 
 // ---- Handle bid submission: add it live + check budget ----
@@ -141,8 +239,12 @@ form.addEventListener("submit", (e) => {
   // 1. Actually add the bid to the data
   bids.push({ projectId, company, amount });
 
-  // 2. Redraw the table so the new bid appears in that project's popup
+  // Remember a brand-new company so it stays in the list for next time
+  addCompany(company);
+
+  // 2. Redraw both tables so the new bid appears everywhere
   renderProjects();
+  renderBids();
 
   // 3. Tell the user whether it is under or over budget
   if (amount > project.budget) {
