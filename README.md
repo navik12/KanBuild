@@ -18,7 +18,13 @@ project's data — showing budgets, project status, and savings per project.
 
 **[▶ View the live dashboard →](https://datastudio.google.com/reporting/d2bb1150-ab37-44da-8e52-bd410689eb9a)**
 
-<!-- Screenshot added below once saved to docs/dashboard.png -->
+![KanBuild — KDOT Project Dashboard](docs/report.png)
+
+The dashboard reports the same data the SQL queries produce:
+- **Scorecards** — total budget ($39.65M), total projects (8), projects open for bidding (2)
+- **Budget by Project** — each project's cost, colored by county
+- **Projects by Status** — share of projects that are Planned, Bidding, In Progress, etc.
+- **Savings per Project** — budget minus the winning bid (I-35 saved the most, ~$550K)
 
 ---
 
