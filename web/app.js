@@ -1,9 +1,12 @@
 // ============================================================
 // KanBuild — web/app.js
 // PURPOSE: Fill the projects table and handle the bid form.
+//          Submitting a bid adds it live to the page and checks
+//          whether it is under or over the project's budget.
 // NOTE: This demo uses sample data hard-coded here so the page
-//       works with zero setup. In a real system this data would
-//       come from the database via an API.
+//       works with zero setup. New bids are kept in memory only
+//       (they reset when you refresh) — a real system would save
+//       them to the database through a backend.
 // ============================================================
 
 // ---- Sample data (mirrors database/02_sample_data.sql) ----
@@ -32,27 +35,27 @@ const contractors = [
   { id: 10, name: "Capitol Infrastructure" },
 ];
 
-const bids = [
-  { projectId: 1, contractorId: 1, amount: 4100000 },
-  { projectId: 1, contractorId: 3, amount: 4350000 },
-  { projectId: 1, contractorId: 7, amount: 3980000 },
-  { projectId: 2, contractorId: 5, amount: 6600000 },
-  { projectId: 2, contractorId: 8, amount: 6950000 },
-  { projectId: 2, contractorId: 3, amount: 6720000 },
-  { projectId: 3, contractorId: 4, amount: 1480000 },
-  { projectId: 3, contractorId: 1, amount: 1525000 },
-  { projectId: 4, contractorId: 8, amount: 12200000 },
-  { projectId: 4, contractorId: 5, amount: 12800000 },
-  { projectId: 4, contractorId: 10, amount: 11950000 },
-  { projectId: 5, contractorId: 2, amount: 2250000 },
-  { projectId: 5, contractorId: 7, amount: 2400000 },
-  { projectId: 8, contractorId: 9, amount: 1700000 },
-  { projectId: 8, contractorId: 6, amount: 1680000 },
+// Each bid stores the company NAME directly so new custom companies work too.
+let bids = [
+  { projectId: 1, company: "Sunflower Paving Co.",    amount: 4100000 },
+  { projectId: 1, company: "Heartland Construction",  amount: 4350000 },
+  { projectId: 1, company: "Great Plains Paving",     amount: 3980000 },
+  { projectId: 2, company: "Midwest Bridge & Grade",  amount: 6600000 },
+  { projectId: 2, company: "Liberty Civil Works",     amount: 6950000 },
+  { projectId: 2, company: "Heartland Construction",  amount: 6720000 },
+  { projectId: 3, company: "Cornerstone Asphalt LLC", amount: 1480000 },
+  { projectId: 3, company: "Sunflower Paving Co.",    amount: 1525000 },
+  { projectId: 4, company: "Liberty Civil Works",     amount: 12200000 },
+  { projectId: 4, company: "Midwest Bridge & Grade",  amount: 12800000 },
+  { projectId: 4, company: "Capitol Infrastructure",  amount: 11950000 },
+  { projectId: 5, company: "Prairie Road Builders",   amount: 2250000 },
+  { projectId: 5, company: "Great Plains Paving",     amount: 2400000 },
+  { projectId: 8, company: "Frontier Road Co.",       amount: 1700000 },
+  { projectId: 8, company: "Flint Hills Excavating",  amount: 1680000 },
 ];
 
 // Helpers
 const money = (n) => "$" + n.toLocaleString("en-US");
-const companyName = (id) => contractors.find((c) => c.id === id).name;
 
 // Get all bids for one project, sorted lowest first
 function bidsForProject(projectId) {
@@ -61,80 +64,95 @@ function bidsForProject(projectId) {
     .sort((a, b) => a.amount - b.amount);
 }
 
-// ---- 1. Build the projects table (with a Bids column) ----
+// ---- Build (or rebuild) the projects table ----
 const tbody = document.querySelector("#projectTable tbody");
+
+function renderProjects() {
+  tbody.innerHTML = ""; // clear, then rebuild (so new bids show up)
+
+  projects.forEach((p) => {
+    const tr = document.createElement("tr");
+    const cssStatus = p.status.replace(/\s+/g, ""); // "In Progress" -> "InProgress"
+
+    const projectBids = bidsForProject(p.id);
+    let bidsCell;
+    if (projectBids.length === 0) {
+      bidsCell = `<span class="no-bids">No bids yet</span>`;
+    } else {
+      const rows = projectBids
+        .map((b, i) => {
+          const winner = i === 0 ? ' class="winner"' : "";
+          const tag = i === 0 ? " ⭐ lowest" : "";
+          return `<tr${winner}><td>${b.company}</td><td>${money(b.amount)}${tag}</td></tr>`;
+        })
+        .join("");
+      bidsCell = `
+        <span class="bid-count">${projectBids.length} bids ▾</span>
+        <div class="bid-popup">
+          <table>
+            <thead><tr><th>Company</th><th>Bid amount</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }
+
+    tr.innerHTML = `
+      <td>${p.name}</td>
+      <td>${p.county}</td>
+      <td>${money(p.budget)}</td>
+      <td><span class="badge ${cssStatus}">${p.status}</span></td>
+      <td class="bids-cell">${bidsCell}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+renderProjects();
+
+// ---- Fill the Project dropdown in the form ----
 const projectSelect = document.querySelector("#project");
-
 projects.forEach((p) => {
-  const tr = document.createElement("tr");
-  const cssStatus = p.status.replace(/\s+/g, ""); // "In Progress" -> "InProgress"
-
-  // Build the hover popup listing this project's bids
-  const projectBids = bidsForProject(p.id);
-  let bidsCell;
-  if (projectBids.length === 0) {
-    bidsCell = `<span class="no-bids">No bids yet</span>`;
-  } else {
-    // The first one (lowest) is the winning bid
-    const rows = projectBids
-      .map((b, i) => {
-        const winner = i === 0 ? ' class="winner"' : "";
-        const tag = i === 0 ? " ⭐ lowest" : "";
-        return `<tr${winner}><td>${companyName(b.contractorId)}</td><td>${money(b.amount)}${tag}</td></tr>`;
-      })
-      .join("");
-    bidsCell = `
-      <span class="bid-count">${projectBids.length} bids ▾</span>
-      <div class="bid-popup">
-        <table>
-          <thead><tr><th>Company</th><th>Bid amount</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-  }
-
-  tr.innerHTML = `
-    <td>${p.name}</td>
-    <td>${p.county}</td>
-    <td>${money(p.budget)}</td>
-    <td><span class="badge ${cssStatus}">${p.status}</span></td>
-    <td class="bids-cell">${bidsCell}</td>`;
-  tbody.appendChild(tr);
-
-  // dropdown option for the bid form
   const opt = document.createElement("option");
   opt.value = p.id;
   opt.textContent = p.name;
   projectSelect.appendChild(opt);
 });
 
-// ---- 2. Fill the Company dropdown so you don't have to type names ----
-const companySelect = document.querySelector("#company");
+// ---- Fill the company suggestion list (you can still type a NEW one) ----
+const companyList = document.querySelector("#companyList");
 contractors.forEach((c) => {
   const opt = document.createElement("option");
   opt.value = c.name;
-  opt.textContent = c.name;
-  companySelect.appendChild(opt);
+  companyList.appendChild(opt);
 });
 
-// ---- 3. Handle bid submission (with simple validation) ----
+// ---- Handle bid submission: add it live + check budget ----
 const form = document.querySelector("#bidForm");
 const msg = document.querySelector("#msg");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const projectId = Number(projectSelect.value);
-  const company = companySelect.value;
+  const company = document.querySelector("#company").value.trim();
   const amount = Number(document.querySelector("#amount").value);
   const project = projects.find((p) => p.id === projectId);
 
-  // Warn if the bid is over budget (a business rule)
+  if (!company || !amount) return;
+
+  // 1. Actually add the bid to the data
+  bids.push({ projectId, company, amount });
+
+  // 2. Redraw the table so the new bid appears in that project's popup
+  renderProjects();
+
+  // 3. Tell the user whether it is under or over budget
   if (amount > project.budget) {
     msg.style.color = "#842029";
-    msg.textContent = `⚠ Bid of ${money(amount)} is OVER the ${money(project.budget)} budget for "${project.name}". Submitted anyway for review.`;
+    msg.textContent = `⚠ ${company}'s bid of ${money(amount)} is OVER the ${money(project.budget)} budget for "${project.name}". Added for review — hover the Bids column to see it.`;
   } else {
+    const saving = project.budget - amount;
     msg.style.color = "#0f5132";
-    msg.textContent = `✓ Bid of ${money(amount)} from "${company}" recorded for "${project.name}".`;
+    msg.textContent = `✓ ${company}'s bid of ${money(amount)} is UNDER budget (saves ${money(saving)}) for "${project.name}". Added — hover the Bids column to see it.`;
   }
+
   form.reset();
 });

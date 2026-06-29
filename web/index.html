@@ -102,11 +102,10 @@ HOW TO VIEW: just double-click this file, or run:
       <label for="project">Project</label>
       <select id="project" required></select>
 
-      <label for="company">Company Name</label>
-      <select id="company" required>
-        <option value="" disabled selected>— Pick a company —</option>
-        <!-- options injected by app.js -->
-      </select>
+      <label for="company">Company Name <small>(pick one or type a new company)</small></label>
+      <input id="company" type="text" list="companyList"
+             placeholder="Start typing, or pick from the list…" required />
+      <datalist id="companyList"><!-- options injected by app.js --></datalist>
 
       <label for="amount">Bid Amount ($)</label>
       <input id="amount" type="number" min="0" step="1000" placeholder="e.g. 4100000" required />
