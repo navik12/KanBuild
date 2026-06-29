@@ -5,9 +5,18 @@ scale — **AASHTOWare Project**, the software state DOTs (like the
 **Kansas Department of Transportation**) use to manage road
 construction projects and contractor bids.
 
-> Built to practice every skill in the **KDOT Management Analyst II**
-> job description: SQL, databases, reporting/BI, data analysis, HTML,
-> and the System Development Life Cycle (SDLC).
+> A hands-on project I built to grow my skills in **SQL, databases,
+> data analysis, reporting/BI, HTML, and the software development
+> life cycle (SDLC)** — by building a real, end-to-end system.
+
+### 🧱 What I built, step by step
+1. **Designed a database** — created 5 related tables (projects, contractors, bids, materials) with keys and constraints.
+2. **Loaded realistic sample data** — 8 highway projects, 10 contractors, and their bids.
+3. **Wrote 20 SQL reports** — using JOINs, GROUP BY, subqueries, CTEs, CASE, and data-validation audits.
+4. **Analyzed the data in Python** — used pandas to summarize the data and export a clean CSV.
+5. **Built a web page** — an HTML/CSS/JavaScript page that lists projects and includes a bid form with validation.
+6. **Created a BI dashboard** — connected the data to Google Looker Studio and built scorecards and charts.
+7. **Documented everything** — wrote requirements, test cases, and a user guide, and published it all to GitHub.
 
 ---
 
