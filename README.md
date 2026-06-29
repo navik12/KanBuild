@@ -11,6 +11,17 @@ construction projects and contractor bids.
 
 ---
 
+## 📊 Live Dashboard
+
+An interactive BI dashboard built in **Google Looker Studio** from this
+project's data — showing budgets, project status, and savings per project.
+
+**[▶ View the live dashboard →](https://datastudio.google.com/reporting/d2bb1150-ab37-44da-8e52-bd410689eb9a)**
+
+<!-- Screenshot added below once saved to docs/dashboard.png -->
+
+---
+
 ## 📖 About this project (in plain language)
 
 **The real-world problem.** State transportation departments (DOTs) build
