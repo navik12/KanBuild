@@ -3,8 +3,9 @@
 *.sqlite
 *.sqlite3
 
-# Generated analysis output (rebuild it with: python3 analysis/analyze.py)
-analysis/project_report.csv
+# Note: analysis/project_report.csv is intentionally NOT ignored.
+# It is committed so the Looker Studio dashboard (via a Google Sheet that
+# pulls it from GitHub with IMPORTDATA) always has the latest data.
 
 # Python
 __pycache__/

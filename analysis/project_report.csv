@@ -1,0 +1,9 @@
+project_id,name,county,budget,start_date,end_date,status,winning_bid,savings,budget_status
+1,I-70 Resurfacing — Mile 350-365,Shawnee,4200000.0,2026-04-01,2026-09-30,In Progress,3980000.0,220000.0,Under budget
+2,US-75 Bridge Replacement,Jackson,6800000.0,2026-05-15,2027-01-15,Awarded,6600000.0,200000.0,Under budget
+3,K-10 Shoulder Widening,Douglas,1500000.0,2026-06-01,2026-10-01,Bidding,1480000.0,20000.0,Under budget
+4,I-35 Interchange Upgrade,Johnson,12500000.0,2026-08-01,2027-12-01,Bidding,11950000.0,550000.0,Under budget
+5,US-54 Pavement Repair,Sedgwick,2300000.0,2026-03-01,2026-07-01,Complete,2250000.0,50000.0,Under budget
+6,K-18 Culvert Replacement,Riley,850000.0,2026-07-01,2026-09-15,Planned,,,No bids yet
+7,I-135 Lane Addition,Saline,9750000.0,,,Planned,,,No bids yet
+8,US-50 Intersection Safety Project,Ford,1750000.0,2026-05-01,,In Progress,1680000.0,70000.0,Under budget
